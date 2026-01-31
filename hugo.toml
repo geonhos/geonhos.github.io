@@ -1,0 +1,59 @@
+baseURL = "https://geonhos.github.io/"
+title = "기록실"
+languageCode = "ko"
+defaultContentLanguage = "ko"
+theme = "PaperMod"
+[pagination]
+  pagerSize = 5
+
+# 검색 기능을 위한 JSON 출력 활성화 (필수)
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[params]
+  env = "production"
+  description = "기록실 블로그"
+  defaultTheme = "auto"
+  ShowReadingTime = true
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowCodeCopyButtons = true
+
+# Home-Info Mode 설정 (프로필 정보 + 최근 포스트 목록)
+[params.homeInfoParams]
+  Title = "✏️ 천천히 기록 중"
+  Content = ""
+
+# 소셜 아이콘 설정
+[[params.socialIcons]]
+  name = "github"
+  url = "https://github.com/geonhos"
+[[params.socialIcons]]
+  name = "email"
+  url = "mailto:ghyeom.dev@gmail.com"
+
+# Profile Mode 비활성화 (Home-Info Mode 사용을 위해)
+[params.profileMode]
+  enabled = false
+
+# 메뉴 설정
+[[menu.main]]
+  identifier = "home"
+  name = "Home"
+  url = "/"
+  weight = 10
+[[menu.main]]
+  identifier = "archives"
+  name = "Archives"
+  url = "/archives/"
+  weight = 20
+[[menu.main]]
+  identifier = "search"
+  name = "Search"
+  url = "/search/"
+  weight = 30
+[[menu.main]]
+  identifier = "tags"
+  name = "Tags"
+  url = "/tags/"
+  weight = 40
