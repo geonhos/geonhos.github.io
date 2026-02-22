@@ -58,3 +58,6 @@ theme = "PaperMod"
   url = "/tags/"
   weight = 40
 
+[params.author]
+  name = "geonho"
+
