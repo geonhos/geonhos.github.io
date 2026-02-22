@@ -1,0 +1,213 @@
+{{- if (.Param "ShowToc") }}
+<style>
+/* 플로팅 TOC 버튼 */
+.toc-fab {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--theme);
+  color: var(--primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  z-index: 100;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.toc-fab:hover {
+  transform: scale(1.08);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* 오버레이 */
+.toc-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.3);
+  z-index: 200;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s, visibility 0.25s;
+}
+
+.toc-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* 슬라이드 패널 */
+.toc-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 280px;
+  max-width: 80vw;
+  height: 100vh;
+  background: var(--theme);
+  border-left: 1px solid var(--border);
+  z-index: 201;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+  padding: 0 1.2rem 2rem;
+}
+
+.toc-panel.open {
+  transform: translateX(0);
+}
+
+.toc-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+  font-weight: 700;
+  font-size: 1rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 0.8rem;
+  position: sticky;
+  top: 0;
+  background: var(--theme);
+}
+
+.toc-close {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: var(--secondary);
+  padding: 0 0.2rem;
+  line-height: 1;
+}
+
+.toc-close:hover {
+  color: var(--primary);
+}
+
+/* 패널 내부 TOC 스타일 리셋 */
+.toc-panel .toc {
+  border: none;
+  background: none;
+  margin: 0;
+  padding: 0;
+}
+
+.toc-panel .toc details {
+  border: none;
+  padding: 0;
+  background: none;
+}
+
+.toc-panel .toc summary {
+  display: none;
+}
+
+.toc-panel .toc .inner {
+  margin: 0;
+}
+
+.toc-panel .toc ul {
+  list-style: none;
+  padding-left: 0.8rem;
+  margin: 0;
+}
+
+.toc-panel .toc > .inner > ul {
+  padding-left: 0;
+}
+
+.toc-panel .toc li {
+  margin: 0.3rem 0;
+  line-height: 1.5;
+}
+
+.toc-panel .toc a {
+  color: var(--secondary);
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: color 0.2s;
+}
+
+.toc-panel .toc a:hover {
+  color: var(--primary);
+}
+
+.toc-panel .toc a.active {
+  color: var(--primary);
+  font-weight: 600;
+}
+</style>
+
+<script defer>
+document.addEventListener('DOMContentLoaded', function() {
+  var fab = document.getElementById('toc-fab');
+  var panel = document.getElementById('toc-panel');
+  var overlay = document.getElementById('toc-overlay');
+  var closeBtn = document.getElementById('toc-close');
+  if (!fab || !panel) return;
+
+  function openToc() {
+    panel.classList.add('open');
+    overlay.classList.add('open');
+    fab.style.display = 'none';
+  }
+
+  function closeToc() {
+    panel.classList.remove('open');
+    overlay.classList.remove('open');
+    fab.style.display = 'flex';
+  }
+
+  fab.addEventListener('click', openToc);
+  overlay.addEventListener('click', closeToc);
+  closeBtn.addEventListener('click', closeToc);
+
+  // TOC 링크 클릭 시 패널 닫기
+  panel.querySelectorAll('a').forEach(function(link) {
+    link.addEventListener('click', function() {
+      setTimeout(closeToc, 150);
+    });
+  });
+
+  // ESC 키로 닫기
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeToc();
+  });
+
+  // 스크롤 기반 현재 섹션 하이라이트
+  var tocLinks = panel.querySelectorAll('a');
+  if (!tocLinks.length) return;
+
+  var headings = [];
+  tocLinks.forEach(function(link) {
+    var id = decodeURIComponent(link.getAttribute('href').slice(1));
+    var el = document.getElementById(id);
+    if (el) headings.push({ el: el, link: link });
+  });
+
+  function updateActive() {
+    var current = headings[0];
+    for (var i = 0; i < headings.length; i++) {
+      if (headings[i].el.getBoundingClientRect().top <= 100) {
+        current = headings[i];
+      }
+    }
+    tocLinks.forEach(function(l) { l.classList.remove('active'); });
+    if (current) current.link.classList.add('active');
+  }
+
+  window.addEventListener('scroll', updateActive, { passive: true });
+  updateActive();
+
+  // details를 강제로 열어서 목차 항목이 보이도록
+  var details = panel.querySelector('.toc details');
+  if (details) details.setAttribute('open', '');
+});
+</script>
+{{- end }}

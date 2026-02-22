@@ -18,6 +18,8 @@ theme = "PaperMod"
   ShowPostNavLinks = true
   ShowBreadCrumbs = true
   ShowCodeCopyButtons = true
+  ShowToc = true
+  TocOpen = true
 
 # Home-Info Mode 설정 (프로필 정보 + 최근 포스트 목록)
 [params.homeInfoParams]
