@@ -1,6 +1,6 @@
 ---
 title: "폐쇄망 맞춤형 AI 코드 리뷰 봇 만들기 (1)"
-date: 2026-02-22
+date: 2026-03-02T07:00:00
 draft: true
 tags: ["AI", "Code Review", "RAG", "LLM", "Qwen", "Ollama", "폐쇄망"]
 summary: "사내 코드 리뷰 프로세스의 문제점을 분석하고, 폐쇄망 환경에 최적화된 AI 코드 리뷰 봇의 기술 스택과 아키텍처를 설계합니다."

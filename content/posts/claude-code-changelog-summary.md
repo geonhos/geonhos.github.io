@@ -1,6 +1,6 @@
 ---
 title: "Claude Code 업데이트 핵심 정리 (v1.0 ~ v2.1.63)"
-date: 2026-02-28
+date: 2026-02-22
 draft: false
 tags: ["Claude Code", "Anthropic", "AI", "CLI", "Changelog"]
 summary: "Claude Code의 주요 업데이트를 버전별로 핵심만 추려 정리합니다. 모델 업그레이드, 신규 기능, 플랫폼 지원 등 메이저 변경사항을 한눈에 볼 수 있습니다. (v2.1.63 기준)"
