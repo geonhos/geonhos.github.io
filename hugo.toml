@@ -60,6 +60,10 @@ theme = "PaperMod"
   url = "/tags/"
   weight = 40
 
+# 마크다운 내 인라인 HTML 허용 (abbr 등 HTML 태그 렌더링용)
+[markup.goldmark.renderer]
+  unsafe = true
+
 [params.author]
   name = "geonho"
 

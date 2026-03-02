@@ -1,3 +1,65 @@
+<style>
+/* 전체 폰트 사이즈 조정 */
+.post-content {
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* abbr 용어 CSS 툴팁 */
+abbr[data-tip] {
+  position: relative;
+  text-decoration: underline dotted;
+  text-decoration-color: var(--secondary);
+  text-underline-offset: 3px;
+  cursor: help;
+}
+
+abbr[data-tip]::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 0;
+  background: var(--primary);
+  color: var(--theme);
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  max-width: min(260px, 90vw);
+  width: max-content;
+  white-space: normal;
+  word-break: keep-all;
+  text-align: left;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s, visibility 0.2s;
+  pointer-events: none;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+abbr[data-tip]:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+</style>
+
+{{- /* Mermaid.js — 다이어그램 SVG 렌더링 */ -}}
+<script defer src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<script defer>
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof mermaid === 'undefined') return;
+  var isDark = document.documentElement.getAttribute('data-theme') === 'dark'
+    || (document.documentElement.getAttribute('data-theme') !== 'light'
+        && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: isDark ? 'dark' : 'default',
+    securityLevel: 'loose'
+  });
+});
+</script>
+
 {{- if (.Param "ShowToc") }}
 <style>
 /* 플로팅 TOC 버튼 */
