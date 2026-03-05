@@ -1,6 +1,6 @@
 ---
 title: "Ollama 메모리 관리 — 모델 크기별 리소스 점유와 최적화 (1)"
-date: 2026-03-02T04:00:00
+date: 2026-03-05
 draft: false
 tags: ["Ollama", "LLM", "Performance", "Benchmark", "메모리"]
 summary: "Ollama로 로컬 LLM을 운영할 때 실제 메모리가 얼마나 필요한지, 모델 크기별·양자화별·컨텍스트별 실측 데이터로 분석하고 프로덕션 메모리 산정 가이드를 정리합니다."
