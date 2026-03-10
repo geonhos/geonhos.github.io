@@ -64,6 +64,5 @@ theme = "PaperMod"
 [markup.goldmark.renderer]
   unsafe = true
 
-[params.author]
-  name = "geonho"
+  author = "geonho"
 
