@@ -11,7 +11,7 @@ series: ["Ollama 성능 시리즈"]
 >
 > 1. **[메모리 관리](/posts/ollama-memory-management/)** — 모델 크기별 리소스 점유와 최적화
 > 2. **(현재) Cold Start** — 내부 동작부터 해결까지
-> 3. **동시 처리** — 병렬 슬롯, 큐잉, 그리고 처리량 *(TODO)*
+> 3. **[동시 처리](/posts/ollama-concurrent-processing/)** — 병렬 슬롯, 큐잉, 그리고 처리량
 
 ---
 
