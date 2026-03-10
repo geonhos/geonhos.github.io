@@ -38,7 +38,7 @@ series: ["Ollama 성능 시리즈"]
 
 ### 1.1 llama.cpp 백엔드와 병렬 슬롯
 
-Ollama는 내부적으로 llama.cpp의 서버 기능을 활용하여 동시 요청을 처리합니다:
+Ollama는 내부적으로 <abbr data-tip="CPU/GPU에서 LLM 추론을 효율적으로 실행하는 오픈소스 C++ 라이브러리">llama.cpp</abbr>의 서버 기능을 활용하여 동시 요청을 처리합니다:
 
 ```
 클라이언트 요청 1 ─┐

@@ -45,7 +45,7 @@ flowchart TD
     B -->|"로드됨"| D["Prompt Evaluation<br/>(prompt_eval_duration)"]
     D --> D1["입력 토큰 임베딩 + KV Cache 초기화"]
     D1 --> E["Token Generation<br/>(eval_duration)"]
-    E --> E1["Auto-regressive 토큰 생성<br/>스트리밍 응답 전송"]
+    E --> E1["Auto-regressive 토큰 생성<br/>(이전 토큰을 참고해 다음 토큰을 하나씩 생성)<br/>스트리밍 응답 전송"]
     E1 --> F["완료 (done: true + 메트릭 포함)"]
 ```
 
@@ -53,7 +53,7 @@ flowchart TD
 
 | 구간 | Cold Start | Warm Start |
 | :--- | :--- | :--- |
-| **load_duration** | <abbr data-tip="GGML Unified Format, llama.cpp 양자화 모델 파일 형식">GGUF</abbr> 파일 메모리 매핑 + 초기 페이지 로드 | 이미 메모리에 있으므로 대폭 감소 (실측 ~71ms) |
+| **load_duration** | <abbr data-tip="GGML Unified Format, llama.cpp 양자화 모델 파일 형식">GGUF</abbr> 파일 <abbr data-tip="Memory Mapping, 파일을 디스크에서 직접 메모리 주소에 연결하는 기법으로 별도 복사 없이 빠르게 접근 가능">메모리 매핑</abbr> + 초기 페이지 로드 | 이미 메모리에 있으므로 대폭 감소 (실측 ~71ms) |
 | **prompt_eval_duration** | <abbr data-tip="Key-Value Cache, 트랜스포머 어텐션 연산의 키-값 쌍을 저장하는 캐시">KV Cache</abbr> 초기 할당 포함 | 할당 완료 상태에서 실행 |
 | **eval_duration** | 차이 없음 (순수 추론) | 차이 없음 |
 
@@ -106,8 +106,6 @@ tokens/s(토큰 생성 속도) = eval_count / (eval_duration / 1e9)
 3. **헬스체크 실패**: 컨테이너 오케스트레이터가 Cold Start 지연을 장애로 인식 → 재시작 루프
 4. **반복적 발생**: keep_alive 기본값(5분) 이후 매번 Cold Start 재발생
 5. **스케일링 지연**: 새 인스턴스 추가 시 초기 응답 지연
-
-특히 Kubernetes 환경에서는 readinessProbe 타임아웃으로 인한 재시작 루프가 빈번하게 보고됩니다.
 
 ---
 
@@ -309,7 +307,7 @@ Apple Silicon(Metal)은 **통합 메모리 아키텍처**를 사용합니다:
 - GPU 전용 VRAM이 없어 시스템 메모리를 공유
 - UMA 덕분에 CPU→GPU VRAM 별도 복사가 불필요하여 로드 과정이 단순
 - SSD 속도가 빨라 Cold Start가 상대적으로 짧음 (우리 측정: ~792ms)
-- x86 + 외장 GPU 환경에서는 PCIe 병목으로 Cold Start가 더 길어질 수 있음
+- x86 + 외장 GPU 환경에서는 <abbr data-tip="Peripheral Component Interconnect Express, CPU와 GPU 사이의 데이터 전송 경로">PCIe</abbr> 병목(CPU↔GPU 간 데이터 전송 경로가 좁음)으로 Cold Start가 더 길어질 수 있음
 
 ---
 
@@ -327,7 +325,7 @@ Apple Silicon(Metal)은 **통합 메모리 아키텍처**를 사용합니다:
 
 ### 다음 편 예고
 
-- **3편: Ollama 동시 요청 처리의 이해와 최적화** — OLLAMA_NUM_PARALLEL과 Continuous Batching, 동시 요청 수별 성능 실측, 대기열 관리와 스케줄링 최적화 *(준비 중)*
+- **[3편: Ollama 동시 요청 처리의 이해와 최적화](/posts/ollama-concurrent-processing/)** — OLLAMA_NUM_PARALLEL과 Continuous Batching, 동시 요청 수별 성능 실측, 대기열 관리와 스케줄링 최적화
 
 ---
 
